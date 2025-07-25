@@ -162,7 +162,25 @@ export default function App() {
   const handleLogin = async (email: string, password: string) => {
     try {
       setLoading(true);
-      
+
+      // Development mode bypass - use mock authentication if Supabase fails
+      const isDevelopment = import.meta.env.DEV;
+
+      if (isDevelopment && (email === 'demo@demo.com' || email === 'admin@demo.com')) {
+        // Mock successful login for demo
+        const mockUser: User = {
+          id: '1',
+          email: email,
+          name: email === 'admin@demo.com' ? 'Admin User' : 'Demo User',
+          role: email === 'admin@demo.com' ? 'admin' : 'citizen'
+        };
+        setUser(mockUser);
+        setAccessToken('mock-token');
+        setCurrentView('dashboard');
+        setLoading(false);
+        return;
+      }
+
       const { data: { session }, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -176,6 +194,15 @@ export default function App() {
           statusText: error.statusText,
           details: error
         });
+
+        // In development, fall back to demo mode
+        if (isDevelopment) {
+          console.log('Falling back to demo mode due to Supabase error');
+          alert('Supabase authentication failed. Using demo mode.\nTry: demo@demo.com or admin@demo.com with any password');
+          setLoading(false);
+          return;
+        }
+
         alert(`Login failed: ${error.message}\nDetails: ${error.status ? `Status ${error.status}` : 'Network or configuration error'}`);
         return;
       }
@@ -186,7 +213,13 @@ export default function App() {
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert('Login failed. Please try again.');
+
+      // In development, show helpful message
+      if (import.meta.env.DEV) {
+        alert('Authentication error. For demo, try:\ndemo@demo.com or admin@demo.com\nwith any password');
+      } else {
+        alert('Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
