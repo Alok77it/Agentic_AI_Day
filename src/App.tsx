@@ -112,6 +112,46 @@ export default function App() {
     if (!accessToken) return;
 
     try {
+      // Development mode with mock data
+      if (import.meta.env.DEV && accessToken === 'mock-token') {
+        const mockReports: Report[] = [
+          {
+            id: '1',
+            title: 'Pothole on Main Street',
+            description: 'Large pothole causing damage to vehicles',
+            type: 'infrastructure',
+            urgency: 'high',
+            status: 'pending',
+            location: {
+              lat: 40.7128,
+              lng: -74.0060,
+              address: '123 Main Street, New York, NY'
+            },
+            userId: user?.id || '1',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          },
+          {
+            id: '2',
+            title: 'Broken Street Light',
+            description: 'Street light not working on Oak Avenue',
+            type: 'safety',
+            urgency: 'medium',
+            status: 'in_progress',
+            location: {
+              lat: 40.7589,
+              lng: -73.9851,
+              address: '456 Oak Avenue, New York, NY'
+            },
+            userId: user?.id || '1',
+            createdAt: new Date(Date.now() - 86400000).toISOString(),
+            updatedAt: new Date().toISOString()
+          }
+        ];
+        setReports(mockReports);
+        return;
+      }
+
       const response = await fetch(`${API_BASE}/reports`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
