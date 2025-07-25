@@ -170,7 +170,13 @@ export default function App() {
 
       if (error) {
         console.error('Login error:', error);
-        alert('Login failed: ' + error.message);
+        console.error('Error details:', {
+          message: error.message,
+          status: error.status,
+          statusText: error.statusText,
+          details: error
+        });
+        alert(`Login failed: ${error.message}\nDetails: ${error.status ? `Status ${error.status}` : 'Network or configuration error'}`);
         return;
       }
 
