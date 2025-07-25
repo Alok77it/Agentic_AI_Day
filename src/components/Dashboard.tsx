@@ -2,7 +2,7 @@ import { User, Report, AppView } from '../App';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
-import { Avatar, AvatarFallback, AvatarInitials } from './ui/avatar';
+import { Avatar, AvatarFallback } from './ui/avatar';
 import { 
   Map, 
   Plus, 
