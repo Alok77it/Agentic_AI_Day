@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './utils/supabase/client';
-import { projectId, publicAnonKey } from './utils/supabase/info';
+import { supabase } from '@/utils/supabase/client';
+import { projectId, publicAnonKey } from '@/utils/supabase/info';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { Dashboard } from './components/Dashboard';
 import { MapView } from './components/MapView';
