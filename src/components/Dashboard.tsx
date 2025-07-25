@@ -226,7 +226,7 @@ export function Dashboard({ user, reports, setCurrentView, handleLogout }: Dashb
                       <h4 className="font-medium text-gray-900">{report.title}</h4>
                       <p className="text-sm text-gray-600">{report.location.address}</p>
                       <p className="text-xs text-gray-500">
-                        {report.createdAt.toLocaleDateString()}
+                        {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Unknown date'}
                       </p>
                     </div>
                   </div>
