@@ -178,6 +178,30 @@ export default function App() {
     if (!accessToken) return;
 
     try {
+      // Development mode with mock data
+      if (import.meta.env.DEV && accessToken === 'mock-token') {
+        const mockNotifications = [
+          {
+            id: '1',
+            title: 'Report Update',
+            message: 'Your pothole report has been assigned to the infrastructure team',
+            timestamp: new Date(),
+            read: false,
+            type: 'update'
+          },
+          {
+            id: '2',
+            title: 'Welcome to CityPulse',
+            message: 'Thanks for joining our civic engagement platform!',
+            timestamp: new Date(Date.now() - 3600000),
+            read: true,
+            type: 'welcome'
+          }
+        ];
+        setNotifications(mockNotifications);
+        return;
+      }
+
       const response = await fetch(`${API_BASE}/notifications`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
