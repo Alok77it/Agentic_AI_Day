@@ -84,6 +84,16 @@ export function WelcomeScreen({ onLogin, onSignup, loading }: WelcomeScreenProps
             <CardDescription className="text-center">
               Sign in to your account or create a new one
             </CardDescription>
+            {import.meta.env.DEV && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+                <p className="text-xs text-blue-800 font-medium mb-2">Demo Mode Available:</p>
+                <div className="space-y-1 text-xs text-blue-700">
+                  <p>• Use <strong>demo@demo.com</strong> for citizen access</p>
+                  <p>• Use <strong>admin@demo.com</strong> for admin access</p>
+                  <p>• Any password works in demo mode</p>
+                </div>
+              </div>
+            )}
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login" className="w-full">
