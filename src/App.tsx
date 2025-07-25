@@ -228,7 +228,26 @@ export default function App() {
   const handleSignup = async (email: string, password: string, name: string) => {
     try {
       setLoading(true);
-      
+
+      // Development mode bypass
+      const isDevelopment = import.meta.env.DEV;
+
+      if (isDevelopment) {
+        // Mock successful signup for demo
+        const mockUser: User = {
+          id: Math.random().toString(),
+          email: email,
+          name: name,
+          role: 'citizen'
+        };
+        setUser(mockUser);
+        setAccessToken('mock-token');
+        setCurrentView('dashboard');
+        setLoading(false);
+        alert('Demo signup successful! You are now logged in.');
+        return;
+      }
+
       // Create user via API
       const signupResponse = await fetch(`${API_BASE}/auth/signup`, {
         method: 'POST',
@@ -248,7 +267,12 @@ export default function App() {
       await handleLogin(email, password);
     } catch (error) {
       console.error('Signup error:', error);
-      alert('Signup failed: ' + error.message);
+
+      if (import.meta.env.DEV) {
+        alert('Signup error. In demo mode, just fill out the form and it will work automatically.');
+      } else {
+        alert('Signup failed: ' + error.message);
+      }
       setLoading(false);
     }
   };
