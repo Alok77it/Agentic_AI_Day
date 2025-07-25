@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase/client';
 import { projectId, publicAnonKey } from '@/utils/supabase/info';
-import { WelcomeScreen } from './components/WelcomeScreen';
-import { Dashboard } from './components/Dashboard';
-import { MapView } from './components/MapView';
-import { ReportForm } from './components/ReportForm';
-import { ReportStatus } from './components/ReportStatus';
-import { AdminDashboard } from './components/AdminDashboard';
-import { NotificationPanel } from './components/NotificationPanel';
+import { WelcomeScreen } from '@/components/WelcomeScreen';
+import { Dashboard } from '@/components/Dashboard';
+import { MapView } from '@/components/MapView';
+import { ReportForm } from '@/components/ReportForm';
+import { ReportStatus } from '@/components/ReportStatus';
+import { AdminDashboard } from '@/components/AdminDashboard';
+import { NotificationPanel } from '@/components/NotificationPanel';
 
 export type User = {
   id: string;
