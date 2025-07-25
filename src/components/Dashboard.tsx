@@ -61,7 +61,7 @@ export function Dashboard({ user, reports, setCurrentView, handleLogout }: Dashb
               <div className="flex items-center space-x-2">
                 <Avatar className="w-8 h-8">
                   <AvatarFallback className="bg-city-blue text-white">
-                    {user?.name.charAt(0).toUpperCase()}
+                    {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:block">
