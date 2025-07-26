@@ -8,6 +8,9 @@ import { ReportForm } from '@/components/ReportForm';
 import { ReportStatus } from '@/components/ReportStatus';
 import { AdminDashboard } from '@/components/AdminDashboard';
 import { NotificationPanel } from '@/components/NotificationPanel';
+// At the top of your file
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "./firebaseConfig"; // Adjust the path as needed
 
 export type User = {
   id: string;
@@ -65,48 +68,42 @@ export default function App() {
   }, [user, accessToken]);
 
   const checkSession = async () => {
-    try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('Session error:', error);
-        setLoading(false);
-        return;
-      }
+  try {
+    // Try Supabase session first
+    const { data: { session }, error } = await supabase.auth.getSession();
 
-      if (session?.access_token) {
-        setAccessToken(session.access_token);
-        await loadUserProfile(session.access_token);
-      } else {
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error('Session check error:', error);
-      setLoading(false);
+    if (session?.access_token) {
+      setAccessToken(session.access_token);
+      await loadUserProfile(session.access_token);
+      return;
     }
-  };
 
-  const loadUserProfile = async (token: string) => {
-    try {
-      const response = await fetch(`${API_BASE}/auth/profile`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+    // If no Supabase session, try Firebase Auth
+    const auth = getAuth(app);
+    const fbUser = auth.currentUser;
+    if (fbUser) {
+      const firebaseToken = await fbUser.getIdToken();
+      setAccessToken(firebaseToken);
+      // Set user state from Firebase user
+      setUser({
+        id: fbUser.uid,
+        email: fbUser.email ?? "",
+        name: fbUser.displayName ?? fbUser.email ?? "",
+        role: "citizen" // or fetch from Firestore if you store roles
       });
-
-      if (response.ok) {
-        const { user: userData } = await response.json();
-        setUser(userData);
-      } else {
-        console.error('Failed to load user profile');
-      }
-    } catch (error) {
-      console.error('Load user profile error:', error);
-    } finally {
-      setLoading(false);
+      await loadUserProfile(firebaseToken);
+      return;
     }
-  };
+
+    if (error) {
+      console.error('Session error:', error);
+    }
+    setLoading(false);
+  } catch (error) {
+    console.error('Session check error:', error);
+    setLoading(false);
+  }
+};
 
   const loadReports = async () => {
     if (!accessToken) return;
