@@ -427,7 +427,8 @@ export default function App() {
     const response = await fetch(`${API_BASE}/upload`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${accessToken}`,
+        'Access-Control-Allow-Origin': `http://localhost:4200`
       },
       body: formData
     });

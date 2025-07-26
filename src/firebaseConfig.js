@@ -1,18 +1,14 @@
 // firebaseConfig.ts
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "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",
-  authDomain: "citypulse-57059.firebaseapp.com",
-  projectId: "citypulse-57059",
-  storageBucket: "citypulse-57059.appspot.com",
-  messagingSenderId: "737708385584",
-  appId: "1:737708385584:web:YOUR_APP_ID", // Optional if known
-  measurementId: "G-MEASUREMENT_ID" // Optional
+  apiKey: "AIzaSyDj65_lVwCOG4IOfP83G72ijbz3D1w5I9I",
+  authDomain: "nixal-72ff5.firebaseapp.com",
+  projectId: "nixal-72ff5",
+  storageBucket: "nixal-72ff5.firebasestorage.app",
+  messagingSenderId: "805549855045",
+  appId: "1:805549855045:web:50acee1b5b803214ccee2c",
+  measurementId: "G-E6EN21KTCG"
 };
 
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
