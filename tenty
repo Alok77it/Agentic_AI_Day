@@ -1,0 +1,5 @@
+await fetch("http://localhost:4200/report", {
+  method: "POST",
+  body: formData,
+});
+
